@@ -1,0 +1,13 @@
+﻿  GameLoop.cpp
+D:\New folder\GAME_FINAL\GAME_FINAL\Character.h(14,18): warning C4305: 'initializing': truncation from 'double' to 'float'
+  (compiling source file 'GameLoop.cpp')
+  
+D:\New folder\GAME_FINAL\GAME_FINAL\GameLoop.cpp(367,33): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\New folder\GAME_FINAL\GAME_FINAL\GameLoop.cpp(368,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\New folder\GAME_FINAL\GAME_FINAL\GameLoop.cpp(374,54): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  main.cpp
+D:\New folder\GAME_FINAL\GAME_FINAL\Character.h(14,18): warning C4305: 'initializing': truncation from 'double' to 'float'
+  (compiling source file 'main.cpp')
+  
+  Generating Code...
+  GAME_FINAL.vcxproj -> D:\New folder\GAME_FINAL\x64\Debug\GAME_FINAL.exe
