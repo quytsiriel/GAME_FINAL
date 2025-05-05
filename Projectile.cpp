@@ -64,7 +64,7 @@ void Projectile::Update(Character character) {
             active = false;
             currFrame = 0;
         }
-        if (animationTimer++ >= 10) // > attack animaitonTimer
+        if (animationTimer++ >= 10) 
         {
             animationTimer = 0;
             if (++currFrame >= 6)

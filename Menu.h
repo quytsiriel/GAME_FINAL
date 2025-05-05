@@ -9,7 +9,7 @@ class Menu
 {
 private:
 	TTF_Font* font;
-	std::string title = "Twilight Run";
+	std::string title = "Phantom Chase";
 	SDL_Texture* backgroundTexture;
 
 	Button playButton;

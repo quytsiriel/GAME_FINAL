@@ -1,4 +1,4 @@
-#include "GameLoop.h"
+﻿#include "GameLoop.h"
 #include <random>
 using namespace std;
 
@@ -24,11 +24,11 @@ GameLoop::GameLoop()
 	_background.setDest(1800, 0, 1800, 1000);
 
 	player.setPlayer();
-	//player.setSrc(0, 0, 100, 100);
-	player.setRect(200, 100, 100, 100);
 
-	//enemy.setSrc(0, 0, 100, 100);
-	enemy.setRect(2000, 50, 100, 100);
+	player.setRect(200, 100, 80, 80);
+
+
+	enemy.setRect(2000, 50, 80, 80);
 }
 
 bool GameLoop::getGameState()
@@ -39,7 +39,7 @@ bool GameLoop::getGameState()
 void GameLoop::Initialize()
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
-	window = SDL_CreateWindow("Twilight Run", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, 0);
+	window = SDL_CreateWindow("Phantom Chase", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, 0);
 
 	SDL_Surface* icon = IMG_Load("assets/image/gameIcon.png");
 	if (icon == NULL) {
@@ -53,11 +53,11 @@ void GameLoop::Initialize()
 	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
 	{
 		std::cout << "SDL_mixer could not initialize! Error: " << Mix_GetError() << std::endl;
-		/*GameState = false;*/
+
 		return;
 	}
 	bgMusic = Mix_LoadMUS("assets/audio/bgMusic.mp3");
-	Mix_VolumeMusic(32); // 0 -> 128
+	Mix_VolumeMusic(32); 
 	button_pressed_sound = Mix_LoadWAV("assets/audio/button_pressed.wav");
 	enemy_is_hitSound = Mix_LoadWAV("assets/audio/enemy_is_hit.wav");
 	Mix_VolumeChunk(enemy_is_hitSound, 16);
@@ -103,7 +103,7 @@ void GameLoop::Initialize()
 
 
 			curr_map = tileMap_0;
-			next_map = tileMapList[0];  next_map.offSetX = 1800; // mapWidth = 1800
+			next_map = tileMapList[0];  next_map.offSetX = 1800; 
 
 
 			pauseFont = TTF_OpenFont("assets/truetype_font/WinkyRough-VariableFont_wght.ttf", 48);
@@ -119,14 +119,14 @@ void GameLoop::Initialize()
 			highScores = {};
 
 			pauseButton.loadTexture("assets/image/pause_button.png", renderer);
-			pauseButton.setRect(WIDTH - 60, 20, 50, 50);
+			pauseButton.setRect(WIDTH - 200, 80, 50, 50);
 			resumePlayingButton.loadTexture("assets/image/resume_playing_button.png", renderer);
-			resumePlayingButton.setRect(WIDTH - 60, 20, 50, 50);
+			resumePlayingButton.setRect(WIDTH - 200, 80, 50, 50);
 
 			muteButton.loadTexture("assets/image/muteButton.png", renderer);
-			muteButton.setRect(WIDTH - 60, 80, 50, 50);
+			muteButton.setRect(WIDTH - 200, 100, 50, 50);
 			unmuteButton.loadTexture("assets/image/unmuteButton.png", renderer);
-			unmuteButton.setRect(WIDTH - 60, 80, 50, 50);
+			unmuteButton.setRect(WIDTH - 200,100, 50, 50);
 
 			gameOverScreen = new GameOverScreen(renderer);
 			menu = new Menu(renderer);
@@ -332,8 +332,6 @@ void GameLoop::Update()
 		}
 	}
 
-
-	// background
 	int background_scrollSpeed = background.scrollSpeed;
 	if (!player.isAlive()) background_scrollSpeed = 0;
 
@@ -350,8 +348,7 @@ void GameLoop::Update()
 		_background.offSetX = 1800;
 	}
 
-	// tileMap
-	int scrollSpeed = curr_map.scrollSpeed; // = 2
+	int scrollSpeed = curr_map.scrollSpeed; 
 	if (score > 3000) scrollSpeed++;
 	if (score > 5000) scrollSpeed++;
 	if (!player.isAlive()) scrollSpeed = 0;
@@ -373,7 +370,7 @@ void GameLoop::Update()
 
 		int randomIdx = getRandomInt(0, tileMapList.size() - 1);
 		next_map = tileMapList[randomIdx];
-		next_map.offSetX = 1800; // mapWidth = 1800
+		next_map.offSetX = 1800; 
 	}
 
 
@@ -407,7 +404,6 @@ void GameLoop::Update()
 		deathTimer++;
 		if (deathTimer >= 300) {
 			enemy.revive();
-			/*enemy.setHP(1);*/
 			enemy.setRect(2000, 150, 100, 100);
 			enemy.setX(2000);
 			enemy.setY(150);
@@ -445,9 +441,6 @@ void GameLoop::Render()
 	else resumePlayingButton.Render(renderer);
 
 
-
-
-	// Score
 	if (scoreFont)
 	{
 		SDL_DestroyTexture(scoreTextTexture);
@@ -456,7 +449,7 @@ void GameLoop::Render()
 		SDL_Surface* textSurface = TTF_RenderText_Solid(scoreFont, scoreText.c_str(), textColor);
 		if (textSurface) {
 			scoreTextTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-			scoreTextRect = { 50, 40, textSurface->w, textSurface->h };
+			scoreTextRect = { 150, 80, textSurface->w, textSurface->h };
 			SDL_FreeSurface(textSurface);
 		}
 	}
@@ -464,12 +457,10 @@ void GameLoop::Render()
 		SDL_RenderCopy(renderer, scoreTextTexture, NULL, &scoreTextRect);
 	}
 
-
-	//Paused
 	if (Pause)
 	{
 		SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 128); // Black, 50% transparent
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 128); 
 		SDL_Rect pauseOverlay = { 0, 0, WIDTH, HEIGHT };
 		SDL_RenderFillRect(renderer, &pauseOverlay);
 
@@ -479,7 +470,7 @@ void GameLoop::Render()
 	// Game Over
 	if (GameOver) {
 		SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 128); // Black, 50% transparent
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 128);
 		SDL_Rect gameOverScreenOverlay = { 0, 0, WIDTH, HEIGHT };
 		SDL_RenderFillRect(renderer, &gameOverScreenOverlay);
 
@@ -497,10 +488,8 @@ void GameLoop::Render()
 
 void GameLoop::ResetGame()
 {
-	// Reset score
 	score = 0;
 
-	// Reset player
 	player.revive();
 	player.setHP(2);
 	player.setX(200);
@@ -526,11 +515,10 @@ void GameLoop::ResetGame()
 	next_map.offSetX = 1800;
 
 
-	// Reset background
+
 	background.offSetX = 0;
 	_background.offSetX = 1800;
 
-	// Reset projectile
 	energy_attack_1.setActive(false);
 	enemyProjectile.setActive(false);
 }

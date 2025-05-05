@@ -36,7 +36,7 @@ void Menu::Render(SDL_Renderer* ren)
 	SDL_RenderCopy(ren, backgroundTexture, NULL, NULL);
 
 	SDL_Color yellow = { 255, 215, 0 };
-	renderText(ren, "Twilight Run", 920, 200, yellow, true);
+	renderText(ren, "Phantom Chase", 920, 200, yellow, true);
 
 	playButton.Render(ren);
 	quitButton.Render(ren);
